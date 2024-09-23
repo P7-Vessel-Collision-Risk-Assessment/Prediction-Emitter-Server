@@ -18,7 +18,7 @@ jobs:
 
       - name: Deploy to server
         run: |
-          sshpass -p '${{ secrets.PSWD }}' ssh -v -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} <<'ENDSSH'
+          ssh -v -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} <<'ENDSSH'
           cd ${{ secrets.APP_PATH }}
           git pull
           ENDSSH
