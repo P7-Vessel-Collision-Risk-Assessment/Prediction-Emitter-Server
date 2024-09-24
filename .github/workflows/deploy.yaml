@@ -20,5 +20,11 @@ jobs:
         run: |
           ssh -v -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.HOST }} <<'ENDSSH'
           cd ${{ secrets.APP_PATH }}
+          pkill screen
           git pull
+          screen -m
+          source ${{ secrets.ENV_PATH }}
+          pip install .
+          python ${{ secrets.START_SCRIPT_PATH }}
+          screen -d
           ENDSSH
