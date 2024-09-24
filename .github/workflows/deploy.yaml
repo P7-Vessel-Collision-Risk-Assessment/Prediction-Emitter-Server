@@ -22,9 +22,9 @@ jobs:
           cd ${{ secrets.APP_PATH }}
           pkill screen
           git pull
-          screen -m
-          source ${{ secrets.ENV_PATH }}
-          pip install .
-          python ${{ secrets.START_SCRIPT_PATH }}
-          screen -d
+          screen -dmS PES
+          screen -S PES -X stuff 'source ${{ secrets.ENV_PATH }}\n'
+          screen -S PES -X stuff 'pip install .\n'
+          screen -S PES -X stuff 'python ${{ secrets.START_SCRIPT_PATH }}\n'
+          screen -ls
           ENDSSH
