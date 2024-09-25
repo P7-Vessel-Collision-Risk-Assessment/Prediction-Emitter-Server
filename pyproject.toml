@@ -11,4 +11,7 @@ dynamic = ["version"]
 dependencies = [
     "fastapi",
     "uvicorn",
+    "pyarrow",
+    "pandas",
+    "python-dotenv",
 ]
