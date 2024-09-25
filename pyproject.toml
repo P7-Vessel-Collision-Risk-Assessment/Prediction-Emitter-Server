@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prediction-emitter-server"
+description = "PES"
+readme = "README.md"
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pyarrow",
+    "pandas",
+    "python-dotenv",
+]
