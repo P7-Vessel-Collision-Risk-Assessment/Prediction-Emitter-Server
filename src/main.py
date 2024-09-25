@@ -1,7 +1,6 @@
 import os
 import json
 import uvicorn
-import pyarrow.feather as feather
 import pandas as pd
 import logging
 import datetime
@@ -40,7 +39,7 @@ app.add_middleware(
 
 T = TypeVar("T")
 
-@app.get("/dummy-AIS-data")
+@app.get("/dummy-ais-data")
 async def ais_data_fetch(request: Request):
     generator = ais_data_generator()
     return StreamingResponse(generator, media_type="text/event-stream")
