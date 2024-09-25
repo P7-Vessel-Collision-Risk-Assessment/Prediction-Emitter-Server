@@ -21,8 +21,8 @@ jobs:
           # Navigate to the application directory
           cd ${{ secrets.APP_PATH }}
 
-          # Check if the screen session exists and terminate if found
-          screen -ls | grep PES && pkill -f screen || echo "No existing screen session found"
+          # Terminate existing screen sockets
+          pkill screen
 
           # Ensure no process is using port 8000 (replace 8000 with your port if necessary)
           fuser -k 8000/tcp || echo "No process using port 8000"
