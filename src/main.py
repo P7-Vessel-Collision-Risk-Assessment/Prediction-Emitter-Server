@@ -3,6 +3,7 @@ import json
 import uvicorn
 import pandas as pd
 import logging
+import datetime
 from fastapi import FastAPI, Response, Depends, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,6 +23,9 @@ logger = logging.getLogger('uvicorn.error')
 
 current_hour_ais_data = datetime.now().hour
 ais_data = pd.read_feather(DATA_FILE_PATH+'aisdk-2024-09-09-hour-' + str(datetime.now().hour) + '.feather')
+
+# Precompute the time strings for comparison
+ais_data['Time'] = ais_data['# Timestamp'].dt.time.astype(str)
 
 app = FastAPI()
 
@@ -43,16 +47,16 @@ async def ais_data_fetch(request: Request):
 async def ais_data_generator():
     global current_hour_ais_data
     global ais_data
-    logging.info("Fetching AIS data")
     if current_hour_ais_data != datetime.now().hour or ais_data is None:
         current_hour_ais_data = datetime.now().hour
         ais_data = pd.read_feather(DATA_FILE_PATH+'aisdk-2024-09-09-hour-' + str(datetime.now().hour) + '.feather')
-    while True:
+        ais_data['Time'] = ais_data['# Timestamp'].dt.time.astype(str)
+    while True: 
         current_timestamp = datetime.now().time().strftime("%H:%M:%S")
-        ais_data_current_time = ais_data[ais_data['# Timestamp'].dt.strftime("%H:%M:%S") == current_timestamp]
+        ais_data_current_time = ais_data[ais_data['Time'] == current_timestamp]
         data = ais_data_current_time.to_json(orient='records')
         yield data + '\n\n'
         await sleep(1)
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=SOURCE_IP, port=SOURCE_PORT, workers=WORKERS)
+    uvicorn.run("main:app", host=SOURCE_IP, port=SOURCE_PORT, reload=True)
