@@ -55,7 +55,7 @@ async def ais_data_generator():
         current_timestamp = datetime.now().time().strftime("%H:%M:%S")
         ais_data_current_time = ais_data[ais_data['Time'] == current_timestamp]
         data = ais_data_current_time.to_json(orient='records')
-        yield data + '\n\n'
+        yield 'event: ais\n' + 'data: ' + data + '\n\n'
         await sleep(1)
 
 if __name__ == "__main__":
