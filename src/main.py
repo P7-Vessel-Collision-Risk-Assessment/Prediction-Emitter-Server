@@ -3,7 +3,7 @@ import os
 import uvicorn
 import pandas as pd
 import logging
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from asyncio import sleep
