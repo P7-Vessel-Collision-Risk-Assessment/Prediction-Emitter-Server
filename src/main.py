@@ -93,7 +93,7 @@ async def location_slice(latitude_range: str, longitude_range: str):
     
     generator = ais_lat_long_slice_generator((lat_start, lat_end), (long_start, long_end))
 
-    return StreamingResponse(generator, media_type="text/event_stream")
+    return StreamingResponse(generator, media_type="text/event-stream")
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host=SOURCE_IP, port=SOURCE_PORT, reload=True)
